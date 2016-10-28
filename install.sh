@@ -6,7 +6,9 @@ cd $DIR
 # An example of an install.
 
 # include the spinup functions
-./ubuntu-spinup.sh
+. $DIR/ubuntu-spinup.sh
+
+cd ~/Downloads
 
 # list the spinups you want to perform
 
@@ -20,6 +22,10 @@ uspin_vagrant
 uspin_atom
 uspin_atom_default
 uspin_chrome
+uspin_meld
 
 uspin_launcher_empty
 uspin_launcher_set
+
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"

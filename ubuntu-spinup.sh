@@ -67,7 +67,7 @@ function uspin_chrome {
 
   sudo dpkg -i google-chrome*.deb
 
-  sudo apt-get install -f
+  sudo apt-get install -f -y
 
   rm google-chrome*.deb
 }
@@ -82,15 +82,14 @@ function uspin_composer {
   if [ "$EXPECTED_SIGNATURE" = "$ACTUAL_SIGNATURE" ]
   then
       php composer-setup.php --quiet
-      RESULT=$?
       rm composer-setup.php
-      exit $RESULT
+      echo "Composer Successfully Installed"
   else
       >&2 echo 'ERROR: Invalid installer signature'
       rm composer-setup.php
-      exit 1
+      echo "Composer Installation Failed"
   fi
-  echo "sudo mv composer.phar /usr/local/bin/composer"
+  sudo mv composer.phar /usr/local/bin/composer
 }
 
 
@@ -164,6 +163,11 @@ function uspin_launcher_set {
   gsettings set com.canonical.Unity.Launcher favorites "['unity://running-apps', 'application://filezilla.desktop', 'application://firefox.desktop', 'application://google-chrome.desktop', 'application://org.gnome.Nautilus.desktop', 'application://gnome-terminal.desktop', 'application://atom.desktop', 'unity://devices']"
 }
 
+# Install meld
+function uspin_meld {
+  sudo apt-get install meld -y
+}
+
 
 # Install Subversion.
 function uspin_subversion {
@@ -179,5 +183,5 @@ function uspin_vagrant {
 
 # Install VirtualBox.
 function uspin_virtualbox {
-  #may not need to be done. may be done auto-matically by vagrant
+  sudo apt install virtualbox virtualbox-ext-pack -y
 }
