@@ -14,11 +14,11 @@ cd ~/Downloads
 
 uspin_amazon_rm
 
-uspin_git
-uspin_arc
-uspin_composer
+# uspin_git
+# uspin_arc
+# uspin_composer
 
-uspin_vagrant
+# uspin_vagrant
 uspin_atom
 uspin_atom_default
 uspin_chrome
@@ -27,5 +27,5 @@ uspin_meld
 uspin_launcher_empty
 uspin_launcher_set
 
-git config --global user.email "you@example.com"
-git config --global user.name "Your Name"
+# git config --global user.email "you@example.com"
+# git config --global user.name "Your Name"
