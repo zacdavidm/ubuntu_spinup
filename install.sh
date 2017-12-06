@@ -22,7 +22,7 @@ uspin_git
 uspin_atom
 uspin_atom_default
 uspin_chrome
-uspin_meld
+# uspin_meld
 
 uspin_launcher_empty
 uspin_launcher_set
