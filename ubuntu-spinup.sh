@@ -67,7 +67,7 @@ function uspin_chrome {
 
   sudo dpkg -i google-chrome*.deb
 
-  sudo apt-get install -f
+  sudo apt-get install -f -y
 
   rm google-chrome*.deb
 }
@@ -82,15 +82,14 @@ function uspin_composer {
   if [ "$EXPECTED_SIGNATURE" = "$ACTUAL_SIGNATURE" ]
   then
       php composer-setup.php --quiet
-      RESULT=$?
       rm composer-setup.php
-      exit $RESULT
+      echo "Composer Successfully Installed"
   else
       >&2 echo 'ERROR: Invalid installer signature'
       rm composer-setup.php
-      exit 1
+      echo "Composer Installation Failed"
   fi
-  echo "sudo mv composer.phar /usr/local/bin/composer"
+  sudo mv composer.phar /usr/local/bin/composer
 }
 
 
@@ -109,6 +108,27 @@ function uspin_git {
 # Install Java.
 function uspin_java {
   sudo apt-get install openjdk-6-jre
+}
+
+function uspin_rm_firefox {
+  sudo apt-get remove firefox
+}
+
+function uspin_firefox {
+  wget -O firefox.tar.bz2 "https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US"
+  tar jxf firefox*
+  sudo mv firefox /opt/
+  sudo ln -s /opt/firefox/firefox /usr/bin/firefox
+}
+
+function uspin_node {
+  sudo apt-get install nodejs -y
+  sudo apt-get install npm -y
+  mkdir ~/.npm-global
+  npm config set prefix '~/.npm-global'
+  echo "if [ -d \"$HOME/.npm-global/bin\" ] ; then" >> ~/.profile
+  echo "  PATH=\"$HOME/.npm-global/bin:$PATH\"" >> ~/.profile
+  echo "fi" >> ~/.profile
 }
 
 
@@ -164,6 +184,38 @@ function uspin_launcher_set {
   gsettings set com.canonical.Unity.Launcher favorites "['unity://running-apps', 'application://filezilla.desktop', 'application://firefox.desktop', 'application://google-chrome.desktop', 'application://org.gnome.Nautilus.desktop', 'application://gnome-terminal.desktop', 'application://atom.desktop', 'unity://devices']"
 }
 
+# Install meld
+function uspin_meld {
+  sudo apt-get install meld -y
+}
+
+# Install Rbenv
+function uspin_rbenv {
+  sudo apt-get install autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3 libgdbm-dev -y
+  git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+  echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+  echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+  source ~/.bashrc
+  type rbenv
+  git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+  rbenv install -l
+  rbenv install 2.3.1
+  rbenv global 2.3.1
+  ruby -v
+}
+
+# Install Ruby
+function uspin_ruby {
+  # from https://www.digitalocean.com/community/tutorials/how-to-install-ruby-on-rails-with-rbenv-on-ubuntu-16-04
+  uspin_rbenv
+}
+
+# Install Ruby
+function uspin_sass {
+  gem install sass
+  gem uninstall -a sass-globbing
+  gem install sass-globbing -v 1.1.0
+}
 
 # Install Subversion.
 function uspin_subversion {
@@ -179,5 +231,70 @@ function uspin_vagrant {
 
 # Install VirtualBox.
 function uspin_virtualbox {
-  #may not need to be done. may be done auto-matically by vagrant
+  sudo apt-get install virtualbox virtualbox-ext-pack -y
+}
+
+# Install VPNC.
+function uspin_vpn {
+  sudo apt-get install network-manager-vpnc network-manager-vpnc-gnome -y
+  # Probably have to log out and log back in for vpnc options to be available
+}
+
+function uspin_slack {
+  wget https://downloads.slack-edge.com/linux_releases/slack-desktop-2.8.2-amd64.deb
+
+  sudo dpkg -i slack-desktop*.deb
+
+  sudo apt-get install -f -y
+
+  rm slack-desktop*.deb
+}
+
+# Uninstall Thunderbird.
+function uspin_rm_thunderbird {
+  sudo apt-get remove thunderbird -y
+  # Probably have to log out and log back in for vpnc options to be available
+}
+
+function uspin_python_dev {
+  sudo apt install python3-pip python3-devel -y
+}
+
+function uspin_curl_ca {
+  sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    software-properties-common -y
+}
+
+function uspin_docker {
+  uspin_python_dev()
+  uspin_curl_ca()
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   zesty \
+   stable"
+   sudo apt-get update
+   sudo install docker-ce -y
+   pip3 install requests --upgrade --user
+   pip3 install docker --upgrade --user
+   # pip3 install docker-compose
+   sudo curl -L https://github.com/docker/compose/releases/download/1.17.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+   sudo chmod +x /usr/local/bin/docker-compose
+
+   sudo groupadd docker
+   sudo usermod -aG docker $USER
+   sudo systemctl enable docker
+}
+
+function uspin_pritunl {
+  sudo tee -a /etc/apt/sources.list.d/pritunl.list << EOF
+  deb http://repo.pritunl.com/stable/apt zesty main
+EOF
+
+  sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+  sudo apt-get update
+  sudo apt-get install pritunl-client-gtk
 }
