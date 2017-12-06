@@ -8,4 +8,4 @@ The ultimate goal of this repo is to do a complete spin-up of a configured machi
 
 ## To Use
 
-`wget -O ubuntu_spinup.zip https://github.com/zaclittleberry/ubuntu_spinup/archive/master.zip && unzip ubuntu_spinup-master $$ ./ubuntu_spinup-master/install.sh`
+`wget -O ubuntu_spinup.zip https://github.com/zaclittleberry/ubuntu_spinup/archive/master.zip && unzip ubuntu_spinup-master && ./ubuntu_spinup-master/install.sh`
