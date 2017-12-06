@@ -14,7 +14,7 @@ cd ~/Downloads
 
 uspin_amazon_rm
 
-# uspin_git
+uspin_git
 # uspin_arc
 # uspin_composer
 
