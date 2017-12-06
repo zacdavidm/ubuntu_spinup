@@ -23,6 +23,9 @@ uspin_atom
 uspin_atom_default
 uspin_chrome
 # uspin_meld
+uspin_node
+uspin_docker
+uspin_rm_thunderbird
 
 uspin_launcher_empty
 uspin_launcher_set
