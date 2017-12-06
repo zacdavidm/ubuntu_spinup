@@ -269,8 +269,8 @@ function uspin_curl_ca {
 }
 
 function uspin_docker {
-  uspin_python_dev()
-  uspin_curl_ca()
+  uspin_python_dev
+  uspin_curl_ca
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
   sudo add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
